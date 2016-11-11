@@ -1,0 +1,4 @@
+import KNN
+
+KNN.handwritingClassTest()
+
