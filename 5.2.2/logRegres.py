@@ -15,7 +15,7 @@ def loadDataSet():
     return dataMat,labelMat
 
 def sigmoid(inX):
-    print('1.0/(1+exp(-inX))',1.0/(1+exp(-inX)))
+    #print('1.0/(1+exp(-inX))',1.0/(1+exp(-inX)))
     return 1.0/(1+exp(-inX))
 
 def gradAscent(dataMatIn, classLabels):
@@ -39,7 +39,8 @@ def plotBestFit(weights):
     import matplotlib.pyplot as plt
     dataMat,labelMat=loadDataSet()
     dataArr = array(dataMat)
-    n = shape(dataArr)[0] 
+    n = shape(dataArr)[0]
+    print('n',n)
     xcord1 = []; ycord1 = []
     xcord2 = []; ycord2 = []
     for i in range(n):
@@ -53,7 +54,9 @@ def plotBestFit(weights):
     ax.scatter(xcord2, ycord2, s=30, c='green')
     x = arange(-3.0, 3.0, 0.1)
     y = (-weights[0]-weights[1]*x)/weights[2]
-    ax.plot(x, y)
+    print('x shape',shape(x))
+    print('y shape',shape(y))
+    ax.plot(x, y.transpose())
     plt.xlabel('X1'); plt.ylabel('X2');
     plt.show()
 
