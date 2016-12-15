@@ -44,15 +44,20 @@ def plotBestFit(weights):
     xcord1 = []; ycord1 = []
     xcord2 = []; ycord2 = []
     for i in range(n):
+        print('dataArr[i,1]',dataArr[i,1])
+        print('dataArr[i,2]',dataArr[i,2])
         if int(labelMat[i])== 1:
             xcord1.append(dataArr[i,1]); ycord1.append(dataArr[i,2])
         else:
             xcord2.append(dataArr[i,1]); ycord2.append(dataArr[i,2])
+    print('xcord1',xcord1)
+    print('xcord2',xcord2)
     fig = plt.figure()
     ax = fig.add_subplot(111)
     ax.scatter(xcord1, ycord1, s=30, c='red', marker='s')
     ax.scatter(xcord2, ycord2, s=30, c='green')
     x = arange(-3.0, 3.0, 0.1)
+    print('x arrange',x)
     y = (-weights[0]-weights[1]*x)/weights[2]
     print('x shape',shape(x))
     print('y shape',shape(y))
@@ -62,6 +67,7 @@ def plotBestFit(weights):
 
 def stocGradAscent0(dataMatrix, classLabels):
     m,n = shape(dataMatrix)
+    print('m = %d,n=%d'%(m,n))
     alpha = 0.01
     weights = ones(n)   #initialize to all ones
     for i in range(m):
@@ -70,14 +76,16 @@ def stocGradAscent0(dataMatrix, classLabels):
         weights = weights + alpha * error * dataMatrix[i]
     return weights
 
-def stocGradAscent1(dataMatrix, classLabels, numIter=150):
+def stocGradAscent1(dataMatrix, classLabels, numIter=20):
     m,n = shape(dataMatrix)
+    print('m = %d,n=%d'%(m,n))
     weights = ones(n)   #initialize to all ones
     for j in range(numIter):
-        dataIndex = range(m)
+        dataIndex = list(range(m))
         for i in range(m):
             alpha = 4/(1.0+j+i)+0.0001    #apha decreases with iteration, does not 
             randIndex = int(random.uniform(0,len(dataIndex)))#go to 0 because of the constant
+            #print("randIndex = ",randIndex)
             h = sigmoid(sum(dataMatrix[randIndex]*weights))
             error = classLabels[randIndex] - h
             weights = weights + alpha * error * dataMatrix[randIndex]
@@ -99,7 +107,9 @@ def colicTest():
             lineArr.append(float(currLine[i]))
         trainingSet.append(lineArr)
         trainingLabels.append(float(currLine[21]))
-    trainWeights = stocGradAscent1(array(trainingSet), trainingLabels, 1000)
+    print('trainingSet',trainingSet)
+    print('trainingLabels',trainingLabels)
+    trainWeights = stocGradAscent1(array(trainingSet), trainingLabels, 500)
     errorCount = 0; numTestVec = 0.0
     for line in frTest.readlines():
         numTestVec += 1.0
